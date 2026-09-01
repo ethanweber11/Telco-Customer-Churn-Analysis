@@ -91,10 +91,6 @@ The R analysis was organized into:
 - The overall churn rate was 26.54%
 - The average tenure was 32.37 months
 - Customers with month-to-month contracts were more likely to churn
-- 
- 
-
-## Business Recommendations
 
 
 
