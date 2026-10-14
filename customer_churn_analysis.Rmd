@@ -1,0 +1,122 @@
+---
+title: "Customer Churn Analysis"
+author: "Ethan Weber"
+date: "2026-08-28"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+
+```{r}
+
+churn <- read.csv("C:/Users/ethan/OneDrive/Documents/CSV Data/WA_Fn-UseC_-Telco-Customer-Churn.csv")
+
+head(churn)
+
+churn$Churn <- ifelse(churn$Churn == "Yes", 1, 0)
+
+churn$gender <- factor(churn$gender)
+churn$Partner <- factor(churn$Partner)
+churn$Dependents <- factor(churn$Dependents)
+churn$PhoneService <- factor(churn$PhoneService)
+churn$MultipleLines <- factor(churn$MultipleLines)
+churn$InternetService <- factor(churn$InternetService)
+churn$OnlineSecurity <- factor(churn$OnlineSecurity)
+churn$OnlineBackup <- factor(churn$OnlineBackup)
+churn$DeviceProtection <- factor(churn$DeviceProtection)
+churn$TechSupport <- factor(churn$TechSupport)
+churn$StreamingTV <- factor(churn$StreamingTV)
+churn$StreamingMovies <- factor(churn$StreamingMovies)
+churn$Contract <- factor(churn$Contract)
+churn$PaperlessBilling <- factor(churn$PaperlessBilling)
+churn$PaymentMethod <- factor(churn$PaymentMethod)
+
+```
+
+
+```{r}
+
+model1 <- glm(Churn ~ gender, 
+             data = churn, 
+             family = binomial)
+
+summary(model1)
+
+```
+
+
+```{r}
+
+model2 <- glm(Churn ~ gender +
+               Partner +
+               Dependents +
+               tenure +
+               InternetService +
+               OnlineSecurity +
+               TechSupport +
+               Contract +
+               PaperlessBilling +
+               PaymentMethod +
+               MonthlyCharges, 
+             data = churn, 
+             family = binomial)
+
+summary(model2)
+
+
+```
+
+
+
+```{r}
+
+model3 <- glm(Churn ~ tenure +
+               InternetService +
+               OnlineSecurity +
+               TechSupport +
+               Contract +
+               PaperlessBilling +
+               PaymentMethod +
+               MonthlyCharges, 
+             data = churn, 
+             family = binomial)
+
+summary(model3)
+
+```
+
+
+```{r}
+library(broom)
+
+tidy(
+  model3,
+  exponentiate = TRUE,
+  conf.int = TRUE
+)
+
+```
+
+
+
+
+
+
+
+```{r}
+
+
+AIC(model1, model2, model3)
+
+
+```
+
+
+
+
+
